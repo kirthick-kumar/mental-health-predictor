@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mental Health Prediction</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    h3#result {
+      margin-top: 25px;
+      color: #2c3e50;
+      font-weight: 500;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Enter Reddit Post:</h2>
+    <textarea id="postText" rows="6" placeholder="Type your post here..."></textarea><br>
+    <button onclick="predict()">Predict</button>
+    <h3 id="result"></h3>
+  </div>
+
+  <script>
+    async function predict() {
+      const text = document.getElementById("postText").value;
+      const response = await fetch("http://127.0.0.1:5000/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ text })
+      });
+
+      if (!response.ok) {
+        document.getElementById("result").innerText = "Error: Failed to get prediction.";
+        return;
+      }
+
+      const data = await response.json();
+      document.getElementById("result").innerText = "Predicted Label: " + data.prediction;
+    }
+  </script>
+</body>
+</html>
