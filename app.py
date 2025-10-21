@@ -13,9 +13,10 @@ nltk.download('stopwords')
 
 # Load dataset
 df = pd.read_csv('mhd.csv', usecols=['post', 'subreddit'])
-print(df[df['subreddit'] == 'anxiety'].count())
+# print(df[df['subreddit'] == 'anxiety'].count())
+
 # Drop rows where subreddit column equals the string 'subreddit' (likely header duplication)
-df = df[df['subreddit'].str.lower() != 'subreddit']
+# df = df[df['subreddit'].str.lower() != 'subreddit']
 df = df.dropna()
 
 # Rename for consistency

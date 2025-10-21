@@ -1,0 +1,21 @@
+# update
+sudo yum update -y
+
+# install python3 and pip (Amazon Linux)
+sudo yum install -y python3 git
+python3 -m pip install --upgrade pip
+
+# clone repo or copy files
+sudo mkdir -p /opt/my-flask-app
+sudo chown ec2-user:ec2-user /opt/my-flask-app
+cd /opt/my-flask-app
+
+# copy or download your model artifact here (see previous S3 commands)
+aws s3 cp s3://my-sagemaker-bucket-12345/path/to/model.tar.gz ./model.tar.gz
+tar -xzvf model.tar.gz
+
+# copy flask app files into /opt/my-flask-app (app.py, requirements.txt, start.sh)
+# Then install Python dependencies
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
